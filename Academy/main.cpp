@@ -4,6 +4,7 @@ using namespace std;
 
 class Human
 {
+protected:
 	string last_name;        //Фамилия
 	string first_name;       //Имя
 	unsigned int age;        //Возраст
@@ -237,7 +238,7 @@ void main()
 		new Student("Diaz", "Ricardo", 55, "Weapon distribution", "Vice", 80),
 		new Graduate("Savchenko", "Oleg", 30, "C++ developer", "WW_01", 93,
 		"Разработка ПО для коммерческих компаний", 12),
-		new Teacher("Einstein", "Albert", 143, "Astronomy", 120, "good")
+		new Teacher("Eistein", "Albert", 143, "Astronomy", 120, "good")
 	};
 
 	for (int i = 0; i < sizeof(group) / sizeof(Human*); i++)
