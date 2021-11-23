@@ -49,9 +49,9 @@ public:
 	}
 
 	//             Methods:
-	virtual void print()const
+	virtual ostream& print(ostream& os)const
 	{
-		cout << last_name << " " << first_name << " " << age << "лет.\n";
+		return os << last_name << " " << first_name << " " << age << "лет.";
 	}
 
 	virtual void to_file()
@@ -61,6 +61,12 @@ public:
 		fout.close();
 	}
 };
+
+ostream& operator<<(ostream& os, const Human& obj)
+{
+	return obj.print(os);
+	
+}
 
 class Student:public Human
 {
@@ -110,17 +116,17 @@ public:
 		cout << "SDestructor:\t" << this << endl;
 	}
 	//        Methods:
-	void print()const
+	ostream& print(ostream& os)const
 	{
-		Human::print();
-		cout << "Специальность: " << speciality << ", группа: " << group << ", успеваемость: " << rating << "%" << endl;
+		Human::print(os);
+		return os << "Специальность: " << speciality << ", группа: " << group << ", успеваемость: " << rating << "%";
 	}
 
 	void to_file()
 	{
 		Human::to_file();
 		ofstream fout("File.txt", std::ios_base::app);
-		fout << "Специальность: " << speciality << ", группа: " << group << ", успеваемость: " << rating << "%\n";
+		fout << ", cпециальность: " << speciality << ", группа: " << group << ", успеваемость: " << rating << "%\n";
 		fout.close();
 	}
 };
@@ -172,12 +178,12 @@ public:
 		cout << "TDestructor:\t" << this << endl;
 	}
 	//              Methods:
-	void print()const
+	ostream& print(ostream& os)const
 	{
-		Human::print();
-		cout << "Специальность: " << speciality <<
+		Human::print(os);
+		return os << "Специальность: " << speciality <<
 			", опыт работы: " << experience << "лет" <<
-			", эмоциональное состояние: " << evil << endl;
+			", эмоциональное состояние: " << evil;
 	}
 
 	void to_file()
@@ -229,10 +235,10 @@ public:
 		cout << "GDestructor:\t" << this << endl;
 	}
 	//             Methods:
-	void print()const
+	ostream& print(ostream& os)const
 	{
-		Student::print();
-		cout << "Тема дипломной работы: " << diploma_thesis_subject <<
+		Student::print(os);
+		return os << "Тема дипломной работы: " << diploma_thesis_subject <<
 			", оценка: " << valuation << endl;
 	}
 
@@ -278,7 +284,8 @@ void main()
 	for (int i = 0; i < sizeof(group) / sizeof(Human*); i++)
 	{
 		cout << "\n------------------------------\n";
-		group[i]->print();
+		//group[i]->print();
+		cout << *group[i] << endl;
 	}
 	cout << "\n------------------------------\n";
 
@@ -287,7 +294,7 @@ void main()
 		delete[] group[i];
 	}
 
-	ofstream fout("File.txt", std::ios_base::app);
+	/*ofstream fout("File.txt", std::ios_base::app);
 	for (int i = 0; i < sizeof(group) / sizeof(Human*); i++)
 	{
 		group[i]->to_file();
@@ -299,5 +306,5 @@ void main()
 	for (int i = 0; i < sizeof(group) / sizeof(Human*); i++)
 	{
 		delete[] group[i];
-	}
+	}*/
 }
