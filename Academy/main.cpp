@@ -1,4 +1,5 @@
 ﻿#include<iostream>
+#include<fstream>
 #include<string>
 using namespace std;
 
@@ -51,6 +52,13 @@ public:
 	virtual void print()const
 	{
 		cout << last_name << " " << first_name << " " << age << "лет.\n";
+	}
+
+	virtual void to_file()
+	{
+		ofstream fout("File.txt", std::ios_base::app);
+		fout << last_name << " " << first_name << " " << age << "лет.\n";
+		fout.close();
 	}
 };
 
@@ -106,6 +114,14 @@ public:
 	{
 		Human::print();
 		cout << "Специальность: " << speciality << ", группа: " << group << ", успеваемость: " << rating << "%" << endl;
+	}
+
+	void to_file()
+	{
+		Human::to_file();
+		ofstream fout("File.txt", std::ios_base::app);
+		fout << "Специальность: " << speciality << ", группа: " << group << ", успеваемость: " << rating << "%\n";
+		fout.close();
 	}
 };
 
@@ -163,6 +179,16 @@ public:
 			", опыт работы: " << experience << "лет" <<
 			", эмоциональное состояние: " << evil << endl;
 	}
+
+	void to_file()
+	{
+		Human::to_file();
+		ofstream fout("File.txt", std::ios_base::app);
+		fout << "Специальность: " << speciality <<
+			", опыт работы: " << experience << "лет" <<
+			", эмоциональное состояние: " << evil << endl;
+		fout.close();
+	}
 };
 
 class Graduate:public Student
@@ -209,6 +235,14 @@ public:
 		cout << "Тема дипломной работы: " << diploma_thesis_subject <<
 			", оценка: " << valuation << endl;
 	}
+
+	void to_file()
+	{
+		Student::to_file();
+		ofstream fout("File.txt", std::ios_base::app);
+		fout << "Тема дипломной работы: " << diploma_thesis_subject << ", оценка: " << valuation << endl;
+		fout.close();
+	}
 };
 
 //#define INHERITANCE
@@ -241,7 +275,7 @@ void main()
 		new Teacher("Eistein", "Albert", 143, "Astronomy", 120, "good")
 	};
 
-	for (int i = 0; i < sizeof(group) / sizeof(Human*); i++)
+	/*for (int i = 0; i < sizeof(group) / sizeof(Human*); i++)
 	{
 		cout << "\n------------------------------\n";
 		group[i]->print();
@@ -249,6 +283,20 @@ void main()
 	cout << "\n------------------------------\n";
 
 	for (int i = 0; i < sizeof(group)/sizeof(Human*); i++) 
+	{
+		delete[] group[i];
+	}*/
+
+	ofstream fout("File.txt", std::ios_base::app);
+	for (int i = 0; i < sizeof(group) / sizeof(Human*); i++)
+	{
+		group[i]->to_file();
+		//fout.write((char*)&group, (sizeof(group) / sizeof(Human*)));
+		//fout << group[i];
+	}
+	system("notepad File.txt");
+
+	for (int i = 0; i < sizeof(group) / sizeof(Human*); i++)
 	{
 		delete[] group[i];
 	}
