@@ -275,7 +275,7 @@ void main()
 		new Teacher("Eistein", "Albert", 143, "Astronomy", 120, "good")
 	};
 
-	/*for (int i = 0; i < sizeof(group) / sizeof(Human*); i++)
+	for (int i = 0; i < sizeof(group) / sizeof(Human*); i++)
 	{
 		cout << "\n------------------------------\n";
 		group[i]->print();
@@ -285,7 +285,7 @@ void main()
 	for (int i = 0; i < sizeof(group)/sizeof(Human*); i++) 
 	{
 		delete[] group[i];
-	}*/
+	}
 
 	ofstream fout("File.txt", std::ios_base::app);
 	for (int i = 0; i < sizeof(group) / sizeof(Human*); i++)
