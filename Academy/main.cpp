@@ -34,43 +34,14 @@ void main()
 		new Teacher("Eistein", "Albert", 143, "Astronomy", 120, "good")
 	};
 
-	/*for (int i = 0; i < sizeof(group) / sizeof(Human*); i++)
-	{
-		cout << "\n------------------------------\n";
-		group[i]->print();
-	}
-	cout << "\n------------------------------\n";
-
-	for (int i = 0; i < sizeof(group)/sizeof(Human*); i++) 
-	{
-		delete[] group[i];
-	}*/
-
-
-	fstream fout("File.txt", std::ios_base::app);
 	for (int i = 0; i < sizeof(group) / sizeof(Human*); i++)
 	{
-		//fout.write((char*)&group, (sizeof(group) / sizeof(Human*)));
-		fout << group[i];
+		group[i]->print();
 	}
-	fout.close();
-	system("notepad File.txt");
+	
 
-	const int SIZE = 256;
-	char buffer[SIZE]{};
-	ifstream fin("File.txt");
-	if (fin.is_open())
+	for (int i = 0; i < sizeof(group) / sizeof(Human*); i++)
 	{
-
-		while (!fin.eof())
-		{
-			fin.getline(buffer, SIZE);
-			cout << buffer << endl;
-		}
+		delete[] group[i];
 	}
-	else
-	{
-		cerr << "File not found" << endl;
-	}
-	fin.close();
 }
