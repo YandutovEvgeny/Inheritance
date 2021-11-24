@@ -1,7 +1,10 @@
 ﻿#include<iostream>
 #include<fstream>
 #include<string>
+#include<iomanip>
 using namespace std;
+
+#define tab "\t"
 
 class Human
 {
@@ -51,7 +54,9 @@ public:
 	//             Methods:
 	virtual ostream& print(ostream& os)const
 	{
-		return os << last_name << " " << first_name << " " << age << "лет.";
+		return os //<< last_name << " " << first_name << " " << age << "лет.";
+			<< setiosflags(ios::left) << last_name << cout.width(10) << first_name << age;
+			
 	}
 
 	virtual void to_file()
@@ -65,7 +70,6 @@ public:
 ostream& operator<<(ostream& os, const Human& obj)
 {
 	return obj.print(os);
-	
 }
 
 class Student:public Human
@@ -119,7 +123,9 @@ public:
 	ostream& print(ostream& os)const
 	{
 		Human::print(os);
-		return os << "Специальность: " << speciality << ", группа: " << group << ", успеваемость: " << rating << "%";
+		os << tab;
+		return os //<< "Специальность: " << speciality << tab << ", группа: " << group << tab <<", успеваемость: " << rating << "%";
+			<< setiosflags(ios::left) << speciality << cout.width(25) << group << rating;
 	}
 
 	void to_file()
@@ -181,9 +187,11 @@ public:
 	ostream& print(ostream& os)const
 	{
 		Human::print(os);
-		return os << "Специальность: " << speciality <<
-			", опыт работы: " << experience << "лет" <<
-			", эмоциональное состояние: " << evil;
+		os << tab;
+		//return os /*<< "Специальность: "*/ << speciality << tab /*<<
+		//	", опыт работы: "*/ << experience << tab/*<< "лет" <<
+		//	", эмоциональное состояние: "*/ << evil;
+		return os << setiosflags(ios::left) << speciality << cout.width(25) << experience << evil;
 	}
 
 	void to_file()
@@ -238,8 +246,9 @@ public:
 	ostream& print(ostream& os)const
 	{
 		Student::print(os);
-		return os << "Тема дипломной работы: " << diploma_thesis_subject <<
-			", оценка: " << valuation << endl;
+		os << tab;
+		return os /*<< "Тема дипломной работы: "*/ << diploma_thesis_subject << tab /*<<
+			", оценка: "*/ << valuation;
 	}
 
 	void to_file()
@@ -277,7 +286,7 @@ void main()
 		new Teacher("Сащеко", "Роман", 33, "C++ basic and OOP teacher", 10, "good"),  //upcast
 		new Student("Diaz", "Ricardo", 55, "Weapon distribution", "Vice", 80),
 		new Graduate("Savchenko", "Oleg", 30, "C++ developer", "WW_01", 93,
-		"Разработка ПО для коммерческих компаний", 12),
+		"Develop software for inc.", 12),
 		new Teacher("Eistein", "Albert", 143, "Astronomy", 120, "good")
 	};
 
@@ -285,9 +294,18 @@ void main()
 	{
 		cout << "\n------------------------------\n";
 		//group[i]->print();
+		//cout.width(i);
 		cout << *group[i] << endl;
 	}
 	cout << "\n------------------------------\n";
+
+	ofstream fout("group.txt");
+	for (int i = 0; i < sizeof(group) / sizeof(group[0]); i++)
+	{
+		fout << *group[i] << endl;
+	}
+	fout.close();
+	system("notepad group.txt");
 
 	for (int i = 0; i < sizeof(group)/sizeof(Human*); i++) 
 	{
