@@ -1,6 +1,6 @@
 Pinkman0Jessie22	Chemistry10WW_0193
-Vercetti25Tomas30	Cryminal10Vice90
-Сащеко25Роман33	C++ basic and OOP teacher1010good
-Diaz25Ricardo55	Weapon distribution10Vice80
-Savchenko25Oleg30	C++ developer10WW_0193	Develop software for inc.	12
-Eistein25Albert143	Astronomy10120good
+Vercetti26Tomas30	Cryminal10Vice90
+Сащеко26Роман33	C++ basic and OOP teacher1010good
+Diaz26Ricardo55	Weapon distribution10Vice80
+Savchenko26Oleg30	C++ developer10WW_0193	Develop software for inc.	12
+Eistein26Albert143	Astronomy10120good

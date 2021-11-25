@@ -125,7 +125,7 @@ public:
 		Human::print(os);
 		os << tab;
 		return os //<< "Специальность: " << speciality << tab << ", группа: " << group << tab <<", успеваемость: " << rating << "%";
-			<< setiosflags(ios::left) << speciality << cout.width(25) << group << rating;
+			<< setiosflags(ios::left) << speciality << cout.width(26) << group << rating;
 	}
 
 	void to_file()
@@ -191,7 +191,7 @@ public:
 		//return os /*<< "Специальность: "*/ << speciality << tab /*<<
 		//	", опыт работы: "*/ << experience << tab/*<< "лет" <<
 		//	", эмоциональное состояние: "*/ << evil;
-		return os << setiosflags(ios::left) << speciality << cout.width(25) << experience << evil;
+		return os << setiosflags(ios::left) << speciality << cout.width(26) << experience << evil;
 	}
 
 	void to_file()
