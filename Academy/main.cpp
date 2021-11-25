@@ -108,7 +108,7 @@ ofstream& operator<<(ofstream& os, const Human& obj)
 	return obj.print(os);
 }
 
-istream& operator>>(istream& is, Human obj)
+istream& operator>>(istream& is, Human& obj)
 {
 	return obj.input(is);
 }
@@ -387,7 +387,7 @@ public:
 };
 
 //#define INHERITANCE
-#define OUTPUT_CHECK
+//#define OUTPUT_CHECK
 
 void main()
 {
@@ -443,9 +443,9 @@ void main()
 	/*Human human("last_name", "first_name", 0);
 	cout << "Кто к нам пришёл: "; cin >> human;
 	cout << human << endl;*/
-	/*Student stud("", "", 0 , "", "", 0);
+	Student stud("", "", 0 , "", "", 0);
 	cout << "Кто к нам пришёл: ";
 	cin >> stud;
-	cout << stud << endl;*/
+	cout << stud << endl;
 
 }
