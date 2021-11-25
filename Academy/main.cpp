@@ -54,9 +54,40 @@ public:
 	//             Methods:
 	virtual ostream& print(ostream& os)const
 	{
-		return os //<< last_name << " " << first_name << " " << age << "лет.";
-			<< setiosflags(ios::left) << last_name << cout.width(10) << first_name << age;
-			
+		//return os << last_name << " " << first_name << " " << age << "лет.";
+		os.width(10);  //Задаёт ширину поля, в которое будет выводится следующее значение
+		os << std::left;
+		os << last_name;
+		os.width(10);
+		os << std::left;
+		os << first_name;
+		os.width(5);
+		os << std::left;
+		os << age;
+		return os;
+	}
+	
+	virtual ofstream& print(ofstream& os)const
+	{
+		os.width(14);
+		os << left;
+		os << typeid(*this).name() << "|";
+		//return os << last_name << " " << first_name << " " << age << "лет.";
+		os.width(10);  //Задаёт ширину поля, в которое будет выводится следующее значение
+		os << right;
+		os << last_name + "|";
+		os.width(10);
+		os << right;
+		os << first_name + "|";
+		os.width(5);
+		os << right;
+		os << std::to_string(age) + "|";
+		return os;
+	}
+
+	virtual istream& input(istream& is)
+	{
+		return is >> last_name >> first_name >> age;
 	}
 
 	virtual void to_file()
@@ -70,6 +101,16 @@ public:
 ostream& operator<<(ostream& os, const Human& obj)
 {
 	return obj.print(os);
+}
+
+ofstream& operator<<(ofstream& os, const Human& obj)
+{
+	return obj.print(os);
+}
+
+istream& operator>>(istream& is, Human obj)
+{
+	return obj.input(is);
 }
 
 class Student:public Human
@@ -123,9 +164,48 @@ public:
 	ostream& print(ostream& os)const
 	{
 		Human::print(os);
-		os << tab;
-		return os //<< "Специальность: " << speciality << tab << ", группа: " << group << tab <<", успеваемость: " << rating << "%";
-			<< setiosflags(ios::left) << speciality << cout.width(26) << group << rating;
+		//os << tab;
+		//return os << "Специальность: " << speciality << tab << ", группа: " << group << tab <<", успеваемость: " << rating << "%";
+		os.width(30);
+		os << std::left;
+		os << speciality;
+		os.width(10);
+		os << std::left;
+		os << group;
+		os.width(10);
+		os << right;
+		//os << std::left;
+		os << rating; 
+		os << "%";
+		return os;	
+	}
+	
+	ofstream& print(ofstream& os)const
+	{
+		Human::print(os);
+		//os << tab;
+		//return os << "Специальность: " << speciality << tab << ", группа: " << group << tab <<", успеваемость: " << rating << "%";
+		os.width(30);
+		os << std::left;
+		os << speciality << "|";
+		os.width(10);
+		os << std::left;
+		os << group << "|";
+		os.width(10);
+		os << right;
+		//os << std::left;
+		os << rating; 
+		os << "%|";
+		return os;	
+	}
+
+	istream& input(istream& is)
+	{
+		Human::input(is);
+		is >> speciality;
+		is >> group;
+		is >> rating;
+		return is;
 	}
 
 	void to_file()
@@ -187,11 +267,39 @@ public:
 	ostream& print(ostream& os)const
 	{
 		Human::print(os);
-		os << tab;
+		//os << tab;
 		//return os /*<< "Специальность: "*/ << speciality << tab /*<<
 		//	", опыт работы: "*/ << experience << tab/*<< "лет" <<
 		//	", эмоциональное состояние: "*/ << evil;
-		return os << setiosflags(ios::left) << speciality << cout.width(26) << experience << evil;
+		os.width(40);
+		os << left;
+		os << speciality;
+		os.width(10);
+		os << right;
+		os << experience << "y";
+		os.width(10);
+		os << right;
+		os << evil;
+		return os;
+	}
+	
+	ofstream& print(ofstream& os)const
+	{
+		Human::print(os);
+		//os << tab;
+		//return os /*<< "Специальность: "*/ << speciality << tab /*<<
+		//	", опыт работы: "*/ << experience << tab/*<< "лет" <<
+		//	", эмоциональное состояние: "*/ << evil;
+		os.width(40);
+		os << left;
+		os << speciality << " |";
+		os.width(10);
+		os << right;
+		os << experience << "y|";
+		os.width(10);
+		os << right;
+		os << evil << "|";
+		return os;
 	}
 
 	void to_file()
@@ -246,9 +354,27 @@ public:
 	ostream& print(ostream& os)const
 	{
 		Student::print(os);
-		os << tab;
-		return os /*<< "Тема дипломной работы: "*/ << diploma_thesis_subject << tab /*<<
-			", оценка: "*/ << valuation;
+		//os << tab;
+		//return os /*<< "Тема дипломной работы: "*/ << diploma_thesis_subject << tab /*<<
+		//	", оценка: "*/ << valuation;
+		os.width(15);
+		os << left << " " << diploma_thesis_subject;
+		os.width(5);
+		os << right << valuation;
+		return os;
+	}
+	
+	ofstream& print(ofstream& os)const
+	{
+		Student::print(os);
+		//os << tab;
+		//return os /*<< "Тема дипломной работы: "*/ << diploma_thesis_subject << tab /*<<
+		//	", оценка: "*/ << valuation;
+		os.width(15);
+		os << left << " " << diploma_thesis_subject << "|";
+		os.width(5);
+		os << right << valuation;
+		return os;
 	}
 
 	void to_file()
@@ -261,6 +387,7 @@ public:
 };
 
 //#define INHERITANCE
+#define OUTPUT_CHECK
 
 void main()
 {
@@ -279,6 +406,7 @@ void main()
 	i.print();
 #endif // INHERITANCE
 
+#ifdef OUTPUT_CHECK
 	Human* group[] =
 	{
 		new Student("Pinkman", "Jessie", 22, "Chemistry", "WW_01", 93),  //upcast
@@ -286,7 +414,7 @@ void main()
 		new Teacher("Сащеко", "Роман", 33, "C++ basic and OOP teacher", 10, "good"),  //upcast
 		new Student("Diaz", "Ricardo", 55, "Weapon distribution", "Vice", 80),
 		new Graduate("Savchenko", "Oleg", 30, "C++ developer", "WW_01", 93,
-		"Develop software for inc.", 12),
+		"Develop software for incorporates", 12),
 		new Teacher("Eistein", "Albert", 143, "Astronomy", 120, "good")
 	};
 
@@ -294,7 +422,6 @@ void main()
 	{
 		cout << "\n------------------------------\n";
 		//group[i]->print();
-		//cout.width(i);
 		cout << *group[i] << endl;
 	}
 	cout << "\n------------------------------\n";
@@ -307,22 +434,18 @@ void main()
 	fout.close();
 	system("notepad group.txt");
 
-	for (int i = 0; i < sizeof(group)/sizeof(Human*); i++) 
-	{
-		delete[] group[i];
-	}
-
-	/*ofstream fout("File.txt", std::ios_base::app);
-	for (int i = 0; i < sizeof(group) / sizeof(Human*); i++)
-	{
-		group[i]->to_file();
-		//fout.write((char*)&group, (sizeof(group) / sizeof(Human*)));
-		//fout << group[i];
-	}
-	system("notepad File.txt");
-
 	for (int i = 0; i < sizeof(group) / sizeof(Human*); i++)
 	{
 		delete[] group[i];
-	}*/
+	}
+#endif // OUTPUT_CHECK
+
+	/*Human human("last_name", "first_name", 0);
+	cout << "Кто к нам пришёл: "; cin >> human;
+	cout << human << endl;*/
+	/*Student stud("", "", 0 , "", "", 0);
+	cout << "Кто к нам пришёл: ";
+	cin >> stud;
+	cout << stud << endl;*/
+
 }
