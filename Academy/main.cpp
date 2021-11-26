@@ -386,6 +386,9 @@ public:
 	}
 };
 
+void SaveToFile(const Human* group[], const int size, const string& filename);
+Human** LoadFromFile(const std::string& filename);
+
 //#define INHERITANCE
 //#define OUTPUT_CHECK
 
@@ -407,7 +410,7 @@ void main()
 #endif // INHERITANCE
 
 #ifdef OUTPUT_CHECK
-	Human* group[] =
+	const Human* group[] =
 	{
 		new Student("Pinkman", "Jessie", 22, "Chemistry", "WW_01", 93),  //upcast
 		new Student("Vercetti", "Tomas", 30, "Cryminal", "Vice", 90),    //upcast
@@ -425,14 +428,22 @@ void main()
 		cout << *group[i] << endl;
 	}
 	cout << "\n------------------------------\n";
+	string filename = "group.txt";
+	SaveToFile(group, sizeof(group) / sizeof(group[0]), "group.txt");
+	system((string("notepad ") + filename).c_str());  
+	//string("notepad") - преобразуем строковую константу "notepad" в объект класса std::string
+	//string("notepad") + filename - выполняем конкатенацию двух объектов класса std::string
+	//(std::string).c_str() - метод c_str() возвращает содержимое объекта std::string в виде 
+	//обычной NULL Terminated line (C-string), то есть в виде массива элементов char
 
-	ofstream fout("group.txt");
+
+	/*ofstream fout("group.txt");
 	for (int i = 0; i < sizeof(group) / sizeof(group[0]); i++)
 	{
 		fout << *group[i] << endl;
 	}
 	fout.close();
-	system("notepad group.txt");
+	system("notepad group.txt");*/
 
 	for (int i = 0; i < sizeof(group) / sizeof(Human*); i++)
 	{
@@ -443,9 +454,54 @@ void main()
 	/*Human human("last_name", "first_name", 0);
 	cout << "Кто к нам пришёл: "; cin >> human;
 	cout << human << endl;*/
-	Student stud("", "", 0 , "", "", 0);
+	/*Student stud("", "", 0 , "", "", 0);
 	cout << "Кто к нам пришёл: ";
 	cin >> stud;
-	cout << stud << endl;
+	cout << stud << endl;*/
 
+	LoadFromFile("group.txt");
+}
+
+void SaveToFile(const Human* group[], const int size, const string& filename)
+{
+	ofstream fout(filename);
+	for (int i = 0; i < size; i++)
+	{
+		fout << *group[i] << endl;
+	}
+	fout.close();
+}
+
+Human** LoadFromFile(const std::string& filename)
+{
+	ifstream fin(filename);
+	if (fin.is_open())
+	{
+		//1) Вычисляем размер файла
+		std::string buffer;  //В этот буффер будем читать строки из файла
+		int n = 0;  //Количество строк в файле 
+		while (!fin.eof())
+		{
+			std::getline(fin, buffer);
+			n++;
+		}
+		//2)Выделяем память под массив группу
+		Human** group = new Human* [n] {};
+		//3)Возвращаем курсор в начало файла, для того чтобы заного его прочитать
+		fin.clear();
+		fin.seekg(0);
+		//cout << fin.tellg() << endl;
+		//4)Заного читаем файл и загружаем его содержимое в массив объектов:
+		for (int i = 0; i < n; i++)
+		{
+			std::getline(fin, buffer);
+			cout << buffer << endl;
+		}
+	    fin.close();
+	}
+	else
+	{
+		cerr << "Error: File not found!" << endl;
+	}
+	return nullptr;    //Если файл прочитать не удалось, возвращаем указатель на ноль
 }

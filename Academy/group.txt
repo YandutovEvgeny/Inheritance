@@ -1,6 +1,6 @@
-class Student  |  Pinkman|   Jessie|  22|Chemistry                     |WW_01     |        93%|
-class Student  | Vercetti|    Tomas|  30|Cryminal                      |Vice      |        90%|
-class Teacher  |   Сащеко|    Роман|  33|C++ basic and OOP teacher                |        10y|      good|
-class Student  |     Diaz|  Ricardo|  55|Weapon distribution           |Vice      |        80%|
-class Graduate |Savchenko|     Oleg|  30|C++ developer                 |WW_01     |        93%|               Develop software for incorporates|   12
-class Teacher  |  Eistein|   Albert| 143|Astronomy                                |       120y|      good|
+class Student |  Pinkman|   Jessie|  22|Chemistry                     |WW_01     |        93%|
+class Student | Vercetti|    Tomas|  30|Cryminal                      |Vice      |        90%|
+class Teacher |   Сащеко|    Роман|  33|C++ basic and OOP teacher                |        10y|      good|
+class Student |     Diaz|  Ricardo|  55|Weapon distribution           |Vice      |        80%|
+class Graduate|Savchenko|     Oleg|  30|C++ developer                 |WW_01     |        93%|               Develop software for incorporates|   12
+class Teacher |  Eistein|   Albert| 143|Astronomy                                |       120y|      good|
