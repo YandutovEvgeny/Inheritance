@@ -53,6 +53,8 @@ public:
 
 };
 
+
+
 class Employee:public Human
 {
 	string post;
