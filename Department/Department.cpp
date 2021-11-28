@@ -40,22 +40,21 @@ public:
 		set_age(age);
 		cout << "HConstructor:" << this << endl;
 	}
-	~Human()
+	virtual ~Human()
 	{
 		cout << "HDestructor:" << this << endl;
 	}
 	
-	//                  Mathods:
-	void Print()const
+	//                  Methods:
+	virtual ostream& Print(ostream& os)const
 	{
-		cout << last_name << " " << first_name << " " << age << "лет" << endl;
+		return os << last_name << " " << first_name << " " << age << "," << endl;
 	}
-
 };
 
 ostream& operator<<(ostream& os, const Human& obj)
 {
-	return obj.;
+	return obj.Print(os);
 }
 
 class Employee:public Human
@@ -84,10 +83,10 @@ public:
 	}
 
 	//               Methods:
-	void Print()const
+	ostream& Print(ostream& os)const
 	{
-		Human::Print();
-		cout << " должность: " << post << endl;
+		Human::Print(os);
+		return os << " должность: " << post << ","<< endl;
 	}
 };
 
@@ -129,10 +128,10 @@ public:
 	}
 
 	//            Methods:
-	void Print()const
+	ostream& Print(ostream& os)const
 	{
-	    Employee::Print();
-		cout << " время выполненной работы: " << completed_job << "часов" << " денег в час: " << cash_per_hour << "$" << endl;
+	    Employee::Print(os);
+		return os << " время выполненной работы: " << completed_job << " часов" << ", денег в час: " << cash_per_hour << "$" << endl;
 	}
 };
 
@@ -162,9 +161,10 @@ public:
 	}
 
 	//                Methods:
-	void Print()const
+	ostream& Print(ostream& os)const
 	{
-		cout << " оклад: " << salary << "$" << endl;
+		Employee::Print(os);
+		return os << " оклад: " << salary << "$" << endl;
 	}
 };
 
