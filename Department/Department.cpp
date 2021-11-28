@@ -53,7 +53,10 @@ public:
 
 };
 
-
+ostream& operator<<(ostream& os, const Human& obj)
+{
+	return obj.;
+}
 
 class Employee:public Human
 {
