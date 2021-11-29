@@ -50,6 +50,11 @@ public:
 	{
 		return os << last_name << " " << first_name << " " << age << "," << endl;
 	}
+
+	virtual ostream& Count(ostream& os)const
+	{
+		return os << " Зарплата за месяц: ";
+	}
 };
 
 ostream& operator<<(ostream& os, const Human& obj)
@@ -87,6 +92,12 @@ public:
 	{
 		Human::Print(os);
 		return os << " должность: " << post << ","<< endl;
+	}
+
+	ostream& Count(ostream& os)const
+	{
+		Human::Count(os);
+		return os;
 	}
 };
 
@@ -131,7 +142,14 @@ public:
 	ostream& Print(ostream& os)const
 	{
 	    Employee::Print(os);
-		return os << " время выполненной работы: " << completed_job << " часов" << ", денег в час: " << cash_per_hour << "$" << endl;
+		return os << " время выполненной работы: " << completed_job << " часов" << ", денег в час: " << 
+			cash_per_hour << "$." ;
+	}
+
+	ostream& Count(ostream& os)const
+	{
+		Employee::Count(os);
+		return os << completed_job * cash_per_hour << "$" << endl;
 	}
 };
 
@@ -164,7 +182,13 @@ public:
 	ostream& Print(ostream& os)const
 	{
 		Employee::Print(os);
-		return os << " оклад: " << salary << "$" << endl;
+		return os << " оклад: " << salary << "$.";
+	}
+
+	ostream& Count(ostream& os)const
+	{
+		Employee::Count(os);
+		return os << salary << "$" << endl;
 	}
 };
 
@@ -173,14 +197,20 @@ void main()
 	setlocale(LC_ALL, "");
 	const Human* group[] =
 	{
-		new Salaried_worker("Zubenko", "Michael", 45, "operator", 35678.35),
+		new Salaried_worker("Zubenko", "Michael", 45, "operator", 3567.35),
 		new Hourly_worker("Pinkman", "Jessie", 22, "producer", 169, 25),
 		new Hourly_worker("White", "Walter", 50, "culinary", 150, 45),
-		new Salaried_worker("Diaz", "Ricardo", 55, "distributor", 50000)
+		new Salaried_worker("Diaz", "Ricardo", 55, "distributor", 5000)
 	};
-
+	cout << "---------------------------------------------------------------" << endl;
 	for (int i = 0; i < sizeof(group) / sizeof(Human*); i++)
 	{
 		cout << *group[i] << endl;
+		cout << "---------------------------------------------------------------" << endl;
+	}
+
+	for (int i = 0; i < sizeof(group) / sizeof(Human*); i++)
+	{
+		delete[] group[i];
 	}
 }
