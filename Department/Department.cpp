@@ -1,4 +1,5 @@
 #include<iostream>
+#include<fstream>
 using namespace std;
 
 class Human
@@ -48,12 +49,14 @@ public:
 	//                  Methods:
 	virtual ostream& Print(ostream& os)const
 	{
-		return os << last_name << " " << first_name << " " << age << "," << endl;
+		return os << last_name << " " << first_name << " " << age << ",";
 	}
 
-	virtual ostream& Count(ostream& os)const
+	virtual void to_file()
 	{
-		return os << " Зарплата за месяц: ";
+		ofstream fout("File.txt", std::ios_base::app);
+		fout << last_name << " " << first_name << " " << age << "," << endl;
+		fout.close();
 	}
 };
 
@@ -91,13 +94,15 @@ public:
 	ostream& Print(ostream& os)const
 	{
 		Human::Print(os);
-		return os << " должность: " << post << ","<< endl;
+		return os << "должность: " << post << ",";
 	}
 
-	ostream& Count(ostream& os)const
+	void to_file()
 	{
-		Human::Count(os);
-		return os;
+		Human::to_file();
+		ofstream fout("File.txt", std::ios_base::app);
+		fout << "должность: " << post << "," << endl;
+		fout.close();
 	}
 };
 
@@ -142,14 +147,19 @@ public:
 	ostream& Print(ostream& os)const
 	{
 	    Employee::Print(os);
-		return os << " время выполненной работы: " << completed_job << " часов" << ", денег в час: " << 
-			cash_per_hour << "$." ;
+		return os << "время выполненной работы: " << completed_job << " часов" << ", денег в час: " << 
+			cash_per_hour << "$." << " Зарплата за месяц: " << 
+			(completed_job * cash_per_hour) - (completed_job * cash_per_hour) * 0.13 << "$" << endl;
 	}
 
-	ostream& Count(ostream& os)const
+	void to_file()
 	{
-		Employee::Count(os);
-		return os << completed_job * cash_per_hour << "$" << endl;
+		Employee::to_file();
+		ofstream fout("File.txt", std::ios_base::app);
+		fout << "время выполненной работы: " << completed_job << " часов" << ", денег в час: " <<
+			cash_per_hour << "$." << " Зарплата за месяц: " <<
+			(completed_job * cash_per_hour) - (completed_job * cash_per_hour) * 0.13 << "$" << endl;
+		fout.close();
 	}
 };
 
@@ -182,20 +192,22 @@ public:
 	ostream& Print(ostream& os)const
 	{
 		Employee::Print(os);
-		return os << " оклад: " << salary << "$.";
+		return os << " оклад: " << salary << "$." << " Зарплата за месяц: " << salary - (salary * 0.13) << "$" << endl;
 	}
 
-	ostream& Count(ostream& os)const
+	void to_file()
 	{
-		Employee::Count(os);
-		return os << salary << "$" << endl;
+		Employee::to_file();
+		ofstream fout("File.txt", std::ios_base::app);
+		fout << " оклад: " << salary << "$." << " Зарплата за месяц: " << salary - (salary * 0.13) << "$" << endl;
+		fout.close();
 	}
 };
 
 void main()
 {
 	setlocale(LC_ALL, "");
-	const Human* group[] =
+	Human* group[] =
 	{
 		new Salaried_worker("Zubenko", "Michael", 45, "operator", 3567.35),
 		new Hourly_worker("Pinkman", "Jessie", 22, "producer", 169, 25),
@@ -208,6 +220,14 @@ void main()
 		cout << *group[i] << endl;
 		cout << "---------------------------------------------------------------" << endl;
 	}
+
+	ofstream fout("File.txt", std::ios_base::app);
+	for (int i = 0; i < sizeof(group) / sizeof(Human*); i++)
+	{
+		group[i]->to_file();
+	}
+	fout.close();
+	system("notepad File.txt");
 
 	for (int i = 0; i < sizeof(group) / sizeof(Human*); i++)
 	{
