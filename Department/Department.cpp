@@ -97,6 +97,11 @@ public:
 		return os << "должность: " << post << ",";
 	}
 
+	virtual double Count()const
+	{
+		return 0;
+	}
+
 	void to_file()
 	{
 		Human::to_file();
@@ -147,9 +152,13 @@ public:
 	ostream& Print(ostream& os)const
 	{
 	    Employee::Print(os);
-		return os << "время выполненной работы: " << completed_job << " часов" << ", денег в час: " << 
-			cash_per_hour << "$." << " Зарплата за месяц: " << 
-			(completed_job * cash_per_hour) - (completed_job * cash_per_hour) * 0.13 << "$" << endl;
+		return os << "время выполненной работы: " << completed_job << " часов" << ", денег в час: " <<
+			cash_per_hour << "$.";
+	}
+
+	double Count()const
+	{
+		return completed_job * cash_per_hour;
 	}
 
 	void to_file()
@@ -157,8 +166,7 @@ public:
 		Employee::to_file();
 		ofstream fout("File.txt", std::ios_base::app);
 		fout << "время выполненной работы: " << completed_job << " часов" << ", денег в час: " <<
-			cash_per_hour << "$." << " Зарплата за месяц: " <<
-			(completed_job * cash_per_hour) - (completed_job * cash_per_hour) * 0.13 << "$" << endl;
+			cash_per_hour << "$.";
 		fout.close();
 	}
 };
@@ -192,14 +200,19 @@ public:
 	ostream& Print(ostream& os)const
 	{
 		Employee::Print(os);
-		return os << " оклад: " << salary << "$." << " Зарплата за месяц: " << salary - (salary * 0.13) << "$" << endl;
+		return os << " оклад: " << salary << "$.";
+	}
+
+	double Count()const
+	{
+		return salary;
 	}
 
 	void to_file()
 	{
 		Employee::to_file();
 		ofstream fout("File.txt", std::ios_base::app);
-		fout << "оклад: " << salary << "$." << " Зарплата за месяц: " << salary - (salary * 0.13) << "$" << endl;
+		fout << "оклад: " << salary << "$.";
 		fout.close();
 	}
 };
@@ -209,15 +222,15 @@ void main()
 	setlocale(LC_ALL, "");
 	Human* group[] =
 	{
-		new Salaried_worker("Zubenko", "Michael", 45, "operator", 3567.35),
-		new Hourly_worker("Pinkman", "Jessie", 22, "producer", 169, 25),
-		new Hourly_worker("White", "Walter", 50, "culinary", 150, 45),
-		new Salaried_worker("Diaz", "Ricardo", 55, "distributor", 5000)
+		new Salaried_worker("Zubenko", "Michael", 45, "operator", 6000.35),
+		new Hourly_worker("Pinkman", "Jessie", 22, "producer", 169, 125),
+		new Hourly_worker("White", "Walter", 50, "culinary", 150, 85),
+		new Salaried_worker("Diaz", "Ricardo", 55, "distributor", 9000)
 	};
 	cout << "---------------------------------------------------------------" << endl;
 	for (int i = 0; i < sizeof(group) / sizeof(Human*); i++)
 	{
-		cout << *group[i] << endl;
+		cout << *group[i] << "Зарплата: " << <<endl;
 		cout << "---------------------------------------------------------------" << endl;
 	}
 
