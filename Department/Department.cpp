@@ -1,4 +1,4 @@
-#include<iostream>
+ï»¿#include<iostream>
 #include<fstream>
 using namespace std;
 
@@ -94,22 +94,22 @@ public:
 	ostream& Print(ostream& os)const
 	{
 		Human::Print(os);
-		return os << "äîëæíîñòü: " << post << ",";
+		return os << "Ð´Ð¾Ð»Ð¶Ð½Ð¾ÑÑ‚ÑŒ: " << post << ",";
 	}
 
 	void to_file()
 	{
 		Human::to_file();
 		ofstream fout("File.txt", std::ios_base::app);
-		fout << "äîëæíîñòü: " << post << "," << endl;
+		fout << "Ð´Ð¾Ð»Ð¶Ð½Ð¾ÑÑ‚ÑŒ: " << post << "," << endl;
 		fout.close();
 	}
 };
 
-class Hourly_worker:public Employee   // Ðàáîòíèê ñ ïî÷àñîâîé îïëàòîé
+class Hourly_worker:public Employee   // Ð Ð°Ð±Ð¾Ñ‚Ð½Ð¸Ðº Ñ Ð¿Ð¾Ñ‡Ð°ÑÐ¾Ð²Ð¾Ð¹ Ð¾Ð¿Ð»Ð°Ñ‚Ð¾Ð¹
 {
-	double completed_job;   //Âðåìÿ âûïîëíåíîé ðàáîòû
-	double cash_per_hour;   //Ñóììà äåíåã â ÷àñ
+	double completed_job;   //Ð’Ñ€ÐµÐ¼Ñ Ð²Ñ‹Ð¿Ð¾Ð»Ð½ÐµÐ½Ð¾Ð¹ Ñ€Ð°Ð±Ð¾Ñ‚Ñ‹
+	double cash_per_hour;   //Ð¡ÑƒÐ¼Ð¼Ð° Ð´ÐµÐ½ÐµÐ³ Ð² Ñ‡Ð°Ñ
 public:
 	const double get_completed_job()const
 	{
@@ -147,8 +147,8 @@ public:
 	ostream& Print(ostream& os)const
 	{
 	    Employee::Print(os);
-		return os << "âðåìÿ âûïîëíåííîé ðàáîòû: " << completed_job << " ÷àñîâ" << ", äåíåã â ÷àñ: " << 
-			cash_per_hour << "$." << " Çàðïëàòà çà ìåñÿö: " << 
+		return os << "Ð²Ñ€ÐµÐ¼Ñ Ð²Ñ‹Ð¿Ð¾Ð»Ð½ÐµÐ½Ð½Ð¾Ð¹ Ñ€Ð°Ð±Ð¾Ñ‚Ñ‹: " << completed_job << " Ñ‡Ð°ÑÐ¾Ð²" << ", Ð´ÐµÐ½ÐµÐ³ Ð² Ñ‡Ð°Ñ: " << 
+			cash_per_hour << "$." << " Ð—Ð°Ñ€Ð¿Ð»Ð°Ñ‚Ð° Ð·Ð° Ð¼ÐµÑÑÑ†: " << 
 			(completed_job * cash_per_hour) - (completed_job * cash_per_hour) * 0.13 << "$" << endl;
 	}
 
@@ -156,16 +156,16 @@ public:
 	{
 		Employee::to_file();
 		ofstream fout("File.txt", std::ios_base::app);
-		fout << "âðåìÿ âûïîëíåííîé ðàáîòû: " << completed_job << " ÷àñîâ" << ", äåíåã â ÷àñ: " <<
-			cash_per_hour << "$." << " Çàðïëàòà çà ìåñÿö: " <<
+		fout << "Ð²Ñ€ÐµÐ¼Ñ Ð²Ñ‹Ð¿Ð¾Ð»Ð½ÐµÐ½Ð½Ð¾Ð¹ Ñ€Ð°Ð±Ð¾Ñ‚Ñ‹: " << completed_job << " Ñ‡Ð°ÑÐ¾Ð²" << ", Ð´ÐµÐ½ÐµÐ³ Ð² Ñ‡Ð°Ñ: " <<
+			cash_per_hour << "$." << " Ð—Ð°Ñ€Ð¿Ð»Ð°Ñ‚Ð° Ð·Ð° Ð¼ÐµÑÑÑ†: " <<
 			(completed_job * cash_per_hour) - (completed_job * cash_per_hour) * 0.13 << "$" << endl;
 		fout.close();
 	}
 };
 
-class Salaried_worker :public Employee   //Ñîòðóäíèê ñ ôèêñèðîâàííûì îêëàäîì
+class Salaried_worker :public Employee   //Ð¡Ð¾Ñ‚Ñ€ÑƒÐ´Ð½Ð¸Ðº Ñ Ñ„Ð¸ÐºÑÐ¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ð¼ Ð¾ÐºÐ»Ð°Ð´Ð¾Ð¼
 {
-	double salary;    //Ðàçìåð îêëàäà
+	double salary;    //Ð Ð°Ð·Ð¼ÐµÑ€ Ð¾ÐºÐ»Ð°Ð´Ð°
 public:
 	const double get_salary()const
 	{
@@ -192,14 +192,14 @@ public:
 	ostream& Print(ostream& os)const
 	{
 		Employee::Print(os);
-		return os << " îêëàä: " << salary << "$." << " Çàðïëàòà çà ìåñÿö: " << salary - (salary * 0.13) << "$" << endl;
+		return os << " Ð¾ÐºÐ»Ð°Ð´: " << salary << "$." << " Ð—Ð°Ñ€Ð¿Ð»Ð°Ñ‚Ð° Ð·Ð° Ð¼ÐµÑÑÑ†: " << salary - (salary * 0.13) << "$" << endl;
 	}
 
 	void to_file()
 	{
 		Employee::to_file();
 		ofstream fout("File.txt", std::ios_base::app);
-		fout << " îêëàä: " << salary << "$." << " Çàðïëàòà çà ìåñÿö: " << salary - (salary * 0.13) << "$" << endl;
+		fout << " Ð¾ÐºÐ»Ð°Ð´: " << salary << "$." << " Ð—Ð°Ñ€Ð¿Ð»Ð°Ñ‚Ð° Ð·Ð° Ð¼ÐµÑÑÑ†: " << salary - (salary * 0.13) << "$" << endl;
 		fout.close();
 	}
 };
