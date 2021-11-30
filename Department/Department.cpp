@@ -220,7 +220,7 @@ public:
 void main()
 {
 	setlocale(LC_ALL, "");
-	Human* group[] =
+	Human* department[] =
 	{
 		new Salaried_worker("Zubenko", "Michael", 45, "operator", 6000.35),
 		new Hourly_worker("Pinkman", "Jessie", 22, "producer", 169, 125),
@@ -228,22 +228,22 @@ void main()
 		new Salaried_worker("Diaz", "Ricardo", 55, "distributor", 9000)
 	};
 	cout << "---------------------------------------------------------------" << endl;
-	for (int i = 0; i < sizeof(group) / sizeof(Human*); i++)
+	for (int i = 0; i < sizeof(department) / sizeof(Human*); i++)
 	{
-		cout << *group[i] << "Зарплата: " << <<endl;
+		cout << *department[i] << "Зарплата: " << <<endl;
 		cout << "---------------------------------------------------------------" << endl;
 	}
 
 	ofstream fout("File.txt", std::ios_base::app);
-	for (int i = 0; i < sizeof(group) / sizeof(Human*); i++)
+	for (int i = 0; i < sizeof(department) / sizeof(Human*); i++)
 	{
-		group[i]->to_file();
+		department[i]->to_file();
 	}
 	fout.close();
 	system("notepad File.txt");
 
-	for (int i = 0; i < sizeof(group) / sizeof(Human*); i++)
+	for (int i = 0; i < sizeof(department) / sizeof(Human*); i++)
 	{
-		delete[] group[i];
+		delete[] department[i];
 	}
 }
