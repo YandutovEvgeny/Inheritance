@@ -199,7 +199,7 @@ public:
 	{
 		Employee::to_file();
 		ofstream fout("File.txt", std::ios_base::app);
-		fout << " оклад: " << salary << "$." << " Зарплата за месяц: " << salary - (salary * 0.13) << "$" << endl;
+		fout << "оклад: " << salary << "$." << " Зарплата за месяц: " << salary - (salary * 0.13) << "$" << endl;
 		fout.close();
 	}
 };
