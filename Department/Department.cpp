@@ -97,7 +97,7 @@ public:
 		return os << "должность: " << post << ",";
 	}
 
-	virtual double Count()const
+	virtual double count_salary()const
 	{
 		return 0;
 	}
@@ -156,7 +156,7 @@ public:
 			cash_per_hour << "$.";
 	}
 
-	double Count()const
+	double count_salary()const
 	{
 		return completed_job * cash_per_hour;
 	}
@@ -203,7 +203,7 @@ public:
 		return os << " оклад: " << salary << "$.";
 	}
 
-	double Count()const
+	double count_salary()const
 	{
 		return salary;
 	}
@@ -220,20 +220,22 @@ public:
 void main()
 {
 	setlocale(LC_ALL, "");
-	Human* department[] =
+	Employee* department[] =
 	{
 		new Salaried_worker("Zubenko", "Michael", 45, "operator", 6000.35),
 		new Hourly_worker("Pinkman", "Jessie", 22, "producer", 169, 125),
 		new Hourly_worker("White", "Walter", 50, "culinary", 150, 85),
 		new Salaried_worker("Diaz", "Ricardo", 55, "distributor", 9000)
 	};
+	double total_money = 0;
 	cout << "---------------------------------------------------------------" << endl;
 	for (int i = 0; i < sizeof(department) / sizeof(Human*); i++)
 	{
-		cout << *department[i] << "Зарплата: " << <<endl;
+		cout << *department[i] << " Зарплата: " << department[i]->count_salary() << endl;
+		total_money += department[i]->count_salary();
 		cout << "---------------------------------------------------------------" << endl;
 	}
-
+	cout << "Зарплата на отдел: " << total_money << endl;
 	ofstream fout("File.txt", std::ios_base::app);
 	for (int i = 0; i < sizeof(department) / sizeof(Human*); i++)
 	{
