@@ -194,8 +194,8 @@ namespace Geometry
 		void draw()const
 		{
 			//1) Получаем окно консоли:
-			//HWND hwnd = GetConsoleWindow();
-			HWND hwnd = FindWindow(NULL, L"Inheritance - Microsoft Visual Studio");
+			HWND hwnd = GetConsoleWindow();
+			//HWND hwnd = FindWindow(NULL, L"Inheritance - Microsoft Visual Studio");
 			//2) Создаём контекст устройства, полученного окна:
 			HDC hdc = GetDC(hwnd);
 			//3)Создаём карандаш:
@@ -316,16 +316,29 @@ namespace Geometry
 		}
 		void draw()const
 		{
-			cout << "O" << endl;
+			HWND hwnd = GetConsoleWindow();
+			HDC hdc = GetDC(hwnd);
+			HPEN hPen = CreatePen(PS_SOLID, 5, color);
+			SelectObject(hdc, hPen);
+			HBRUSH hBrush = CreateSolidBrush(color);
+			SelectObject(hdc, hBrush);
+			for (int i = 0; i < 25; cout << endl, i++); Sleep(200);
+				
+			::Ellipse(hdc, 0,150,radius*50,150 + radius*50);
+			
+			DeleteObject(hBrush);
+			DeleteObject(hPen);
+			ReleaseDC(hwnd, hdc);
+			//cout << "O" << endl;
 		}
 	};
 }
 
 
 //#define SQUARE
-//#define RECTANGLE
+#define RECTANGLE
 //#define TRIANGLE
-//#define CIRCLE
+#define CIRCLE
 
 void main()
 {
@@ -354,9 +367,10 @@ void main()
 	triangle.draw();
 #endif // TRIANGLE
 #ifdef CIRCLE
-	Geometry::Circle circle(5, Geometry::Color::console_white);
+	Geometry::Circle circle(5, Geometry::Color::red);
 	cout << "Площадь круга: " << circle.get_area() << endl;
 	cout << "Периметр круга: " << circle.get_perimeter() << endl;
 	circle.draw();
+
 #endif // CIRCLE
 }
