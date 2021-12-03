@@ -20,8 +20,9 @@ namespace Geometry
 		green      = 0x0000FF00,
 		dark_green = 0x0000AA00,
 		blue       = 0x00FF0000,
-		yellow     = 0x0000FFFF  //1-00: альфа-канал, 2-00: blue, 3-FF: green, 4-FF: red
-		//
+		yellow     = 0x0000FFFF,  //1-00: альфа-канал, 2-00: blue, 3-FF: green, 4-FF: red
+		white      = 0x00FFFFFF
+								 
 
 		/*console_gray,  //0x88 - шестнадцатеричный код цвета
 		console_blue,
@@ -225,41 +226,49 @@ namespace Geometry
 
 	class Triangle :public Shape   //Треугольник
 	{
-		double height;           //Высота
-		double side;             //Сторона
+		//Этот класс является абстрактным, поскольку треугольники бывают: 
+		//равносторонние, равнобедренный, прямоугольный, тупоугольный.
 	public:
-		double get_height()const
+		Triangle(double side, Color color, unsigned int width, unsigned int start_x, unsigned int start_y) :Shape(color, width, start_x, start_y)
 		{
-			return height;
+
 		}
+		~Triangle()
+		{
+
+		}
+		virtual double get_height()const = 0;  
+		//НО, мы знаем, что у каждого треугольника есть высота, и как её вычислить зависит от
+		//конкретного типа треугольника
+	};
+
+	class EquilateralTriangle:public Triangle   //Равносторонний треугольник
+	{
+		double side;
+	public:
 		double get_side()const
 		{
 			return side;
 		}
-		void set_height(double height)
+		double get_height()const
 		{
-			if (height <= 0)height = 2;
-			this->height = height;
+			return sqrt(pow(side, 2) - pow(side / 2, 2));
 		}
 		void set_side(double side)
 		{
-			if (side <= 0)side = 2;
+			if (side <= 0)side = 1;
 			this->side = side;
 		}
-		Triangle(double side, double height, Color color) :Shape(color)
+		EquilateralTriangle
+		(
+			double side, Color color = Color::white, unsigned int width = 5, unsigned int start_x = 100, unsigned int start_y = 100
+		) : Triangle(side, color, width, start_x, start_y)
 		{
 			set_side(side);
-			set_height(height);
-			cout << "TriConstructor: " << this << endl;
 		}
-		~Triangle()
-		{
-			cout << "TriDestructor: " << this << endl;
-		}
-
 		double get_area()const
 		{
-			return 0.5 * (side * height);
+			return side * side * sqrt(3) / 4;
 		}
 		double get_perimeter()const
 		{
@@ -267,19 +276,26 @@ namespace Geometry
 		}
 		void draw()const
 		{
-			for (int i = 0; i < side; i++)                  //|    *
-			{                                               //|   * *
-				for (int j = i; j < side; j++)              //|  * * *
-				{                                           //| * * * *
-					cout << " ";                            //|* * * * *
-				}
-				for (int j = 0; j <= i; j++)
-				{
-					cout << "* ";
-				}
-				cout << endl;
-			}
+			HWND hwnd = GetConsoleWindow();
+			HDC hdc = GetDC(hwnd);
+			HPEN hPen = CreatePen(PS_SOLID, width, color);
+			HBRUSH hBrush = CreateSolidBrush(color);
+			SelectObject(hdc, hPen);
+			SelectObject(hdc, hBrush);
+
+			const POINT points[] =
+			{
+				{start_x, start_y + this->get_height()},
+				{start_x + side, start_y + this->get_height()},
+				{start_x + side / 2, start_y}
+			};
+			::Polygon(hdc, points, sizeof(points) / sizeof(POINT));
+
+			DeleteObject(hBrush);
+			DeleteObject(hPen);
+			ReleaseDC(hwnd, hdc);
 		}
+
 	};
 
 	class Circle :public Shape             //Круг
@@ -324,7 +340,8 @@ namespace Geometry
 			SelectObject(hdc, hBrush);
 			for (int i = 0; i < 25; cout << endl, i++); Sleep(200);
 				
-			::Ellipse(hdc, 0,150,radius*50,150 + radius*50);
+			//::Ellipse(hdc, 0,start_y + 50,radius*50,150 + radius*50);
+			::Ellipse(hdc, start_x,start_y,start_x + radius *2, start_y + radius * 2);
 			
 			DeleteObject(hBrush);
 			DeleteObject(hPen);
@@ -336,9 +353,9 @@ namespace Geometry
 
 
 //#define SQUARE
-#define RECTANGLE
-//#define TRIANGLE
-#define CIRCLE
+//#define RECTANGLE
+#define TRIANGLE
+//#define CIRCLE
 
 void main()
 {
@@ -361,10 +378,13 @@ void main()
 	rectangle.draw();
 #endif // RECTANGLE
 #ifdef TRIANGLE
-	Geometry::Triangle triangle(5, 5, Geometry::Color::console_green);
-	cout << "Площадь треугольника: " << triangle.get_area() << endl;
-	cout << "Периметр треугольниа: " << triangle.get_perimeter() << endl;
-	triangle.draw();
+	Geometry::EquilateralTriangle et(300, Geometry::Color::green, 5, 200, 200);
+	cout << "Площадь треугольника: " << et.get_area() << endl;
+	cout << "Высота: " << et.get_height() << endl;
+	cout << "Периметр треугольниа: " << et.get_perimeter() << endl;
+	cin.get();
+	et.draw();
+	cin.get();
 #endif // TRIANGLE
 #ifdef CIRCLE
 	Geometry::Circle circle(5, Geometry::Color::red);
