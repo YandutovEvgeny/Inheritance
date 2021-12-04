@@ -1,5 +1,5 @@
 ﻿#include<iostream>
-#include<string>
+#include<conio.h>
 #include<Windows.h>
 using std::cin;
 using std::cout;
@@ -195,8 +195,8 @@ namespace Geometry
 		void draw()const
 		{
 			//1) Получаем окно консоли:
-			HWND hwnd = GetConsoleWindow();
-			//HWND hwnd = FindWindow(NULL, L"Inheritance - Microsoft Visual Studio");
+			//HWND hwnd = GetConsoleWindow();
+			HWND hwnd = FindWindow(NULL, L"Inheritance - Microsoft Visual Studio");
 			//2) Создаём контекст устройства, полученного окна:
 			HDC hdc = GetDC(hwnd);
 			//3)Создаём карандаш:
@@ -229,7 +229,7 @@ namespace Geometry
 		//Этот класс является абстрактным, поскольку треугольники бывают: 
 		//равносторонние, равнобедренный, прямоугольный, тупоугольный.
 	public:
-		Triangle(double side, Color color, unsigned int width, unsigned int start_x, unsigned int start_y) :Shape(color, width, start_x, start_y)
+		Triangle(Color color, unsigned int width, unsigned int start_x, unsigned int start_y) :Shape(color, width, start_x, start_y)
 		{
 
 		}
@@ -262,7 +262,7 @@ namespace Geometry
 		EquilateralTriangle
 		(
 			double side, Color color = Color::white, unsigned int width = 5, unsigned int start_x = 100, unsigned int start_y = 100
-		) : Triangle(side, color, width, start_x, start_y)
+		) : Triangle(color, width, start_x, start_y)
 		{
 			set_side(side);
 		}
@@ -340,20 +340,18 @@ namespace Geometry
 			SelectObject(hdc, hBrush);
 			for (int i = 0; i < 25; cout << endl, i++); Sleep(200);
 				
-			//::Ellipse(hdc, 0,start_y + 50,radius*50,150 + radius*50);
-			::Ellipse(hdc, start_x,start_y,start_x + radius *2, start_y + radius * 2);
+			::Ellipse(hdc, start_x, start_y, start_x + radius*50,start_y + radius*50);
 			
 			DeleteObject(hBrush);
 			DeleteObject(hPen);
 			ReleaseDC(hwnd, hdc);
-			//cout << "O" << endl;
 		}
 	};
 }
 
 
 //#define SQUARE
-//#define RECTANGLE
+#define RECTANGLE
 #define TRIANGLE
 //#define CIRCLE
 
@@ -364,6 +362,7 @@ void main()
 	SetConsoleDisplayMode(hConsole, CONSOLE_FULLSCREEN, &buffer);
 	system("pause");*/
 	setlocale(LC_ALL, "");
+	char key = 0;
 #ifdef SQUARE
 	//Shape shape
 	Geometry::Square square(5, Geometry::Color::console_red);
@@ -372,19 +371,27 @@ void main()
 	square.draw();
 #endif // SQUARE
 #ifdef RECTANGLE
-	Geometry::Rectangle rectangle(200, 100, Geometry::Color::yellow, 5, 200, 100);
-	cout << "Площадь прямоугольника: " << rectangle.get_area() << endl;
-	cout << "Периметр прямоугольника: " << rectangle.get_perimeter() << endl;
-	rectangle.draw();
+	Geometry::Rectangle rect1(200, 100, Geometry::Color::yellow, 5, 200, 100);
+	cout << "Площадь прямоугольника: " << rect1.get_area() << endl;
+	cout << "Периметр прямоугольника: " << rect1.get_perimeter() << endl;
+	while (key != ' ')
+	{
+		rect1.draw();
+		if (_kbhit())key = _getch();
+	}
 #endif // RECTANGLE
 #ifdef TRIANGLE
 	Geometry::EquilateralTriangle et(300, Geometry::Color::green, 5, 200, 200);
 	cout << "Площадь треугольника: " << et.get_area() << endl;
 	cout << "Высота: " << et.get_height() << endl;
 	cout << "Периметр треугольниа: " << et.get_perimeter() << endl;
-	cin.get();
-	et.draw();
-	cin.get();
+	key = 0;
+	while (key != ' ')
+	{
+	    et.draw();
+		if (_kbhit())key = _getch();
+	}
+	
 #endif // TRIANGLE
 #ifdef CIRCLE
 	Geometry::Circle circle(5, Geometry::Color::red);
