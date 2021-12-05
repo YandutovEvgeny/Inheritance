@@ -371,36 +371,36 @@ namespace Geometry
 
 	class RightTriangle :public Triangle        //Прямоугольный треугольник
 	{
-		double bottom;                   //Основание треугольника
-		double hypotenuse;               //Гипотенуза
+		double bottom;                   //Основание треугольника (Катет 1)
+		double side;                     //Сторона треугольника (Катет 2)
 	public:
 		double get_bottom()const
 		{
 			return bottom;
 		}
-		double get_hypotenuse()const
+		double get_side()const
 		{
-			return hypotenuse;
+			return side;
 		}
 		double get_height()const
 		{
-			return sqrt(pow(hypotenuse, 2) - pow(bottom, 2));
+			return sqrt(pow(side, 2) - pow(bottom, 2));
 		}
 		void set_bottom(double bottom)
 		{
 			this->bottom = bottom;
 		}
-		void set_hypotenuse(double hypotenuse)
+		void set_side(double side)
 		{
-			this->hypotenuse = hypotenuse;
+			this->side = side;
 		}
 		RightTriangle
 		(
-			double bottom, double hypotenuse, Color color, unsigned int width, unsigned int start_x, unsigned int start_y
+			double bottom, double side, Color color, unsigned int width, unsigned int start_x, unsigned int start_y
 		) : Triangle(color, width, start_x, start_y)
 		{
 			set_bottom(bottom);
-			set_hypotenuse(hypotenuse);
+			set_side(side);
 		}
 		double get_area()const
 		{
@@ -408,7 +408,7 @@ namespace Geometry
 		}
 		double get_perimeter()const
 		{
-			return hypotenuse + bottom + get_height();
+			return side + bottom + get_height();
 		}
 		void draw()const
 		{
